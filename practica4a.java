@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Videojuego{
@@ -14,21 +14,43 @@ class Videojuego{
         this.Codigo = Codigo;
         this.Plataforma = Plataforma;
     }//Public VideoJuego
+
+    //Necesario los getter para poder recibir los datos privados de la clase videojuego
+        public String getNombre() {return Nombre;}
+        public String getGenero() { return Genero;}
+        public int getCodigo() { return Codigo;}
+        public String getPlataforma() { return Plataforma;}
 }//Videojuego
 
-    //Metodo Constructor que recibe los dato
-class Catalogo(String Nombre, String Genero, int Codigo, String Plataforma){
-    new Catalogo(Videojuego());
+//Declaracion de la clase catalogo que seria la de base de datos
+class Catalogo{
+    private ArrayList<Videojuego> videojuegos; // El equivalente a self.videojuegos
     
-        
-    //Imprime los datos
-    void mostrar(String Nombre,String Genero,int Codigo,String Plataforma){
-        
-    }//Mostrar
-    static void registrar(String Nombre,String Genero,int Codigo,String Plataforma){
+    public Catalogo(){ //init
+        videojuegos = new ArrayList<>();
+    }
+    
+    //Metodo para registrar videojuegos
+    void registrar(String Nombre,String Genero,int Codigo,String Plataforma){
         Videojuego videojuego = new Videojuego (Nombre, Genero, Codigo, Plataforma);
+        videojuegos.add(videojuego);
+        System.out.println("Videojuego: " + Nombre + ", registrado exitosamente!");
     }//Registrar
-}
+
+
+    //Metodo para la impresion de los datos
+    void mostrar(){
+        //Ciclo para recorrer la lista de videojuegos, comprueba si hay o no
+        if (videojuegos.isEmpty()){
+            System.out.println("No hay videojuegos registrados!");
+            return;
+        }/* if  v es variable temporal para el recorrido*/
+        for(Videojuego i : videojuegos){
+            System.out.println("Nonbre: " + i.getNombre() + ", Genero: " + i.getGenero() + ", Codigo: " + i.getCodigo() + ", Plataforma: " + i.getPlataforma());
+        }/* for */
+    }//Mostrar
+
+}//Toda la clase Catalogo
 
 public class practica4a{
 
@@ -36,54 +58,55 @@ public class practica4a{
         //Creacion de objetos
         System.out.println("\n-----Catalogo de Videojuegos-----\n");
         Scanner leer = new Scanner(System.in);
-        int opcion, Codigo;
-        String Nombre, Genero, Plataforma;
+        int opcion;
+        Catalogo cat = new Catalogo(); //Se declara antes del ciclo do, para que cada pasada pueda crearse uno nuevo vacio
 
         //Videojuego videojuego = new Videojuego (Nombre , Genero, Codigo, Plataforma);
 
         do{
 
-            System.out.println("-----Menu Principal-----");
+            System.out.println("\n-----Menu Principal-----");
             System.out.println("1.- Registrar Videojuego");
-            System.out.println("2.- Editar Videojuego");
-            System.out.println("3.- Imprimir Catalogo");
-            System.out.println("4.- Borrar Videojuego");
+            System.out.println("2.- Mostrar Catalogo");
+            System.out.println("3.- Buscar Videojuego");
+            System.out.println("4.- Vender Videojuego");
             System.out.println("5.- Salir");
             System.out.println("\nQue opcion desea? ");
             opcion = Integer.parseInt(leer.nextLine());
             
             switch (opcion) {
-                case 1:
+                case 1: //Aqui se registran las variables de los objetos
                     System.out.println("----- Registrar Videojuego -----");
 
                     System.out.println("Nombre de Videojuego: ");
-                    Nombre = leer.nextLine();
+                    String Nombre = leer.nextLine();
 
                     System.out.println("Genero: ");
-                    Genero = leer.nextLine();
+                    String Genero = leer.nextLine();
 
                     System.out.println("Codigo: ");
-                    Codigo = leer.nextInt();
+                    int Codigo = Integer.parseInt(leer.nextLine()); //Para poder leer los int y el salto de linea ya que el solo nextInt no lee el salto
 
                     System.out.println("Plataforma: ");
-                    Plataforma = leer.nextLine();
-
-                    Catalogo.registrar(Nombre, Genero, Codigo, Plataforma);
+                    String Plataforma = leer.nextLine();
+                    //Se pasan las variables al metodo
+                    cat.registrar(Nombre, Genero, Codigo, Plataforma);
 
                     break;
             
                 case 2:
-                    System.out.println("----- Editar Videojuego -----");
-
+                    System.out.println("-----  Mostrar Catalogo -----");
+                        cat.mostrar();
                     break;
 
                 case 3:
-                    System.out.println("----- Imprimir Catalogo -----");
-                    Catalogo.mostrar(Nombre, Genero, Codigo, Plataforma);
+                    System.out.println("----- Buscar Videojuego -----");
+                    
+
                     break;
 
                 case 4:
-                    System.out.println("----- Menu de borrar Videojuego -----");
+                    System.out.println("----- Vender Videojuego -----");
 
                     break;
 
